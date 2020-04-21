@@ -1,0 +1,23 @@
+spring:
+  cloud:
+    kubernetes:
+      reload:
+        enabled: true
+        mode: polling
+        period: 5000
+      config:
+        name: ${spring.application.name}
+        namespace: otherns
+        sources:
+          # load config-reload configmap by default,app restart when configmap changed,so disabled it .
+
+          #- name: ${spring.application.name}
+          # Spring Cloud Kubernetes looks up a ConfigMap named dynamic-configmap  in namespace otherns
+          - name: dynamic-configmap
+          # Spring Cloud Kubernetes looks up a ConfigMap named  ${spring.application.name} in whatever namespace n2
+          #- namespace: n2
+          # Spring Cloud Kubernetes looks up a ConfigMap named c3 in namespace n3
+          #- namespace: n3
+          #  name: c3
+      secrets:
+        enableApi: true

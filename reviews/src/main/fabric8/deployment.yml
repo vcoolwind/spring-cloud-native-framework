@@ -1,0 +1,37 @@
+metadata:
+  namespace: mybookinfo
+spec:
+  replicas: 1
+  template:
+    spec:
+      #volumes:
+      #  - name: config
+      #    gitRepo:
+      #      repository: 'https://github.com/jstrachan/sample-springboot-config.git'
+      #      revision: 667ee4db6bc842b127825351e5c9bae5a4fb2147
+      #      directory: .
+      #containers:
+      #  - volumeMounts:
+      #      - name: config
+      #        mountPath: /app/config
+      #    env:
+      #      - name: KUBERNETES_NAMESPACE
+      #        valueFrom:
+      #          fieldRef:
+      #            apiVersion: v1
+      #            fieldPath: metadata.namespace
+      containers:
+        - env:
+            - name: DATASOURCE_PLATFORM
+              value: pg
+            - name: DATASOURCE_URL
+              value: "jdbc:postgresql://192.168.92.1:5432/reviewdb"
+            - name: DATASOURCE_USERNAME
+              value: "bookinfo"
+            - name: DATASOURCE_PASSWORD
+              value: "bookinfo"
+            - name: DATASOURCE_DRIVER
+              value: "org.postgresql.Driver"
+            - name: DDL_AUTO
+              value: "none"
+      serviceAccount: mybookinfo-sa
