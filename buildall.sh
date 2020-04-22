@@ -9,6 +9,7 @@ projects=(common ratings configreload reviews details productpage )
 for project in "${projects[@]}"
 do
   cd ${project}
+  chmod +x build.sh
   ./build.sh
   cd ..
 done
