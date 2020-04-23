@@ -13,9 +13,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @Data
 public class MongoDBConfig {
-    @Value("${MONGODB_USERNAME}")
+    @Value("${MONGODB_USERNAME:admin}")
     private String username;
 
-    @Value("${MONGODB_PASSWORD}")
+    @Value("${MONGODB_PASSWORD:admin}")
     private String password;
 }

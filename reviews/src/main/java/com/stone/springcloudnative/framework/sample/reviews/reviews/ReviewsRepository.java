@@ -9,4 +9,5 @@ public interface ReviewsRepository extends JpaRepository<Review, UUID> {
 
     List<Review> findByProductId(UUID productId);
 
+
 }

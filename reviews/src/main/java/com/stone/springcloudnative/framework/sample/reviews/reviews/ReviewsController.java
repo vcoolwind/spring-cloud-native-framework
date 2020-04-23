@@ -34,7 +34,6 @@ public class ReviewsController {
 
     @Autowired
     private DiscoveryClient discoveryClient;
-//    KubernetesServicesServerList
 
     public ReviewsController(ReviewsRepository reviewRepository, RatingsClient ratingsClient) {
         log.info("ReviewsController init ,ReviewsRepository = {}, RatingsClient= {}", reviewRepository, ratingsClient);
@@ -47,14 +46,12 @@ public class ReviewsController {
         return "hello reviews";
     }
 
-
     @GetMapping(value = "/reviews/{productId}")
     public ReviewDto getReviewsByProductId(@PathVariable UUID productId, HttpServletRequest request) {
         log.info("getReviewsByProductId by productId:{}", productId);
         //MiscUtils.showHeaders(request);
         ReviewDto reviewDto = new ReviewDto();
         reviewDto.setProductId(productId);
-
         List<Review> reviews = reviewRepository.findByProductId(productId);
         reviewDto.setReviews(reviews);
 

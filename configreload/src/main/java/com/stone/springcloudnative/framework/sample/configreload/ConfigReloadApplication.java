@@ -12,7 +12,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableScheduling
 @EnableAspectJAutoProxy
-@EnableAutoConfiguration
 @Import(LoggerAspect.class)
 @Slf4j
 public class ConfigReloadApplication {
