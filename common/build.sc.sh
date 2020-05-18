@@ -1,5 +1,5 @@
 #!/bin/sh
-project=parent
+project=common
 
 echo '-------------build '${project}' start-------------------'
 mvn  clean package install

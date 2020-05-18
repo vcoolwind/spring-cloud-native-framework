@@ -3,6 +3,7 @@ package com.stone.springcloudnative.framework.sample.common.mesh;
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -18,6 +19,7 @@ import java.util.Map;
  */
 @Configuration
 @Slf4j
+@EnableFeignClients
 public class FeginInterceptor implements RequestInterceptor {
     // HTTP headers to propagate for distributed tracing are documented at
     // https://istio.io/docs/tasks/telemetry/distributed-tracing/overview/#trace-context-propagation

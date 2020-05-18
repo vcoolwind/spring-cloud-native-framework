@@ -1,7 +1,9 @@
 #!/bin/sh
-project=reviews
+project=ratings
 
 echo '-------------build '${project}' start-------------------'
+cp pom.k8s.xml pom.xml  -f
+cp src/main/resources/application.k8s.yml src/main/resources/application.yml -f
 kubectl delete deploy ${project} -n mybookinfo --force --grace-period=0 || \
 sleep 3 && \
 mvn  clean package fabric8:deploy -Pkubernetes

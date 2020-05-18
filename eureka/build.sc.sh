@@ -1,6 +1,6 @@
 #!/bin/sh
-project=parent
+project=eureka
 
 echo '-------------build '${project}' start-------------------'
-mvn  clean package install
+mvn  clean package
 echo '-------------build '${project}' over-------------------'

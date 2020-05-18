@@ -8,7 +8,10 @@ projects=(common ratings configreload reviews details productpage )
 
 for project in "${projects[@]}"
 do
+  echo "---->build ${project}<----"
   cd ${project}
+  cp build.k8s.sh build.sh
+  chmod +x build.sh
   ./build.sh
   cd ..
 done

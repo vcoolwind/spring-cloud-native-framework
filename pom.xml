@@ -14,6 +14,7 @@
         <module>details</module>
         <module>configreload</module>
         <module>common</module>
+        <module>eureka</module>
     </modules>
 
     <parent>

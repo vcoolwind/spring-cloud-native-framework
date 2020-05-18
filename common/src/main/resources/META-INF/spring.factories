@@ -1,0 +1,2 @@
+org.springframework.cloud.bootstrap.BootstrapConfiguration=\
+com.stone.springcloudnative.framework.sample.common.FrameworkCommonBootstrapConfiguration
