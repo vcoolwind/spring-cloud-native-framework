@@ -32,7 +32,6 @@
         <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-prometheus</artifactId>
-            <version>1.3.9</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -88,6 +87,16 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <enricher>
+                        <config>
+                            <!-- set prometheusPort with 8103,default is 9779 -->
+                            <f8-prometheus>
+                                <prometheusPort>8103</prometheusPort>
+                            </f8-prometheus>
+                        </config>
+                    </enricher>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -3,3 +3,24 @@ spring:
     name: details
 server:
   port: 8103
+management:
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+    env:
+      enabled: true
+    info:
+      enabled: true
+    mappings:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: ["health","info","mappings","metrics","env","healthz","prometheus"]
+      base-path: /actuator  # 配置 Endpoint 的基础路径
+    enabled-by-default: false # 修改全局 endpoint 默认设置

@@ -1,10 +1,16 @@
+apiVersion: v1
+kind: Service
 metadata:
   namespace: mybookinfo
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8103"
+    prometheus.io/path: "/actuator/prometheus"
 spec:
   ports:
     - name: http
       protocol: TCP
       port: 9080
       targetPort: 8103
-      #nodePort: 30003
-  #type: NodePort
+      nodePort: 30003
+  type: NodePort

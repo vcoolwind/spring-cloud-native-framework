@@ -3,7 +3,6 @@ spring:
     name: details
 server:
   port: 8103
-
 management:
   endpoint:
     health:
@@ -19,12 +18,9 @@ management:
       enabled: true
     mappings:
       enabled: true
-
   endpoints:
-    # 暴露 EndPoint 以供访问，有jmx和web两种方式，exclude 的优先级高于 include
     web:
       exposure:
-        #exclude: '*'
-        include: ["health","info","mappings","metrics","env","myHealth","prometheus"]
+        include: ["health","info","mappings","metrics","env","healthz","prometheus"]
       base-path: /actuator  # 配置 Endpoint 的基础路径
     enabled-by-default: false # 修改全局 endpoint 默认设置

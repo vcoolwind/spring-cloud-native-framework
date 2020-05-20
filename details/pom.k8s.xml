@@ -30,6 +30,10 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -83,6 +87,15 @@
                         </goals>
                     </execution>
                 </executions>
+                <configuration>
+                    <enricher>
+                        <config>
+                            <f8-prometheus>
+                                <prometheusPort>8103</prometheusPort>
+                            </f8-prometheus>
+                        </config>
+                    </enricher>
+                </configuration>
             </plugin>
         </plugins>
     </build>

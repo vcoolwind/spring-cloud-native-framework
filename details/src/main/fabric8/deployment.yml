@@ -1,2 +1,35 @@
 metadata:
   namespace: mybookinfo
+spec:
+  replicas: 2
+  template:
+    spec:
+      containers:
+        - env:
+          livenessProbe:
+            httpGet:
+              path: /actuator/healthz
+              port: 8103
+              scheme: HTTP
+            failureThreshold: 3
+            initialDelaySeconds: 180
+            periodSeconds: 3
+            successThreshold: 1
+            timeoutSeconds: 2
+          readinessProbe:
+            httpGet:
+              path: /actuator/healthz
+              port: 8103
+              scheme: HTTP
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 3
+            successThreshold: 1
+            timeoutSeconds: 2
+          resources:
+            limits:
+              cpu: 200m
+              memory: 200Mi
+            requests:
+              cpu: 100m
+              memory: 100Mi
