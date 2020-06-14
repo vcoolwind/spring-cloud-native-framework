@@ -1,5 +1,6 @@
 package com.stone.springcloudnative.framework.sample.ratings;
 
+import com.stone.springcloudnative.framework.sample.common.util.MiscUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,7 @@ public class RatingsController {
         if (ipAddress == null) {
             ipAddress = request.getRemoteAddr();
         }
+        MiscUtils.sleep(MiscUtils.random(500));
 
         log.info("----------getRatingsByProduct--------" + ipAddress);
         return ratingsRepository.findByProductId(productId, reviewer);

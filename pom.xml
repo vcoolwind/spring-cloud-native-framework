@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.stone.springcloudnative.framework</groupId>
-    <artifactId>sample</artifactId>
+    <artifactId>bookinfo-parent</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
     <modules>
@@ -46,6 +46,7 @@
         <maven-checkstyle-plugin.failsOnError>true</maven-checkstyle-plugin.failsOnError>
         <maven-checkstyle-plugin.failsOnViolation>true</maven-checkstyle-plugin.failsOnViolation>
         <maven-checkstyle-plugin.includeTestSourceDirectory>true</maven-checkstyle-plugin.includeTestSourceDirectory>
+        <skywalking.version>7.0.0</skywalking.version>
     </properties>
 
     <dependencyManagement>

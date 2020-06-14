@@ -1,9 +1,11 @@
 package com.stone.springcloudnative.framework.sample.reviews.reviews;
 
+import com.stone.springcloudnative.framework.sample.common.util.MiscUtils;
 import com.stone.springcloudnative.framework.sample.reviews.configreload.ConfigReloadClient;
 import com.stone.springcloudnative.framework.sample.reviews.ratings.Rating;
 import com.stone.springcloudnative.framework.sample.reviews.ratings.RatingsClient;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.skywalking.apm.toolkit.trace.RunnableWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
@@ -54,7 +56,7 @@ public class ReviewsController {
         reviewDto.setProductId(productId);
         List<Review> reviews = reviewRepository.findByProductId(productId);
         reviewDto.setReviews(reviews);
-
+        MiscUtils.sleep(MiscUtils.random(500));
         for (Review review : reviews) {
             if (this.ratingsEnabled) {
                 Rating rating = ratingsClient.getRating(productId, review.getReviewer());
@@ -63,6 +65,8 @@ public class ReviewsController {
                 log.info("ratings is not enabled");
             }
         }
+        asyncDoSth();
+        MiscUtils.sleep(MiscUtils.random(500));
 
         if (this.configReloadEnabled) {
             reviewDto.setRemoteConfig(configReloadClient.getRemoteConfig());
@@ -72,6 +76,18 @@ public class ReviewsController {
 
         return reviewDto;
     }
+
+    private void asyncDoSth(){
+        new Thread(
+                RunnableWrapper.of(() -> {
+                    log.info("asyncDoSth start");
+                    MiscUtils.sleep(MiscUtils.random(500));
+                    log.info("asyncDoSth end");
+                })
+        ).start();
+    }
+
+
 
     // curl -d '{"reviewerId":"9bc908be-0717-4eab-bb51-ea14f669ef20","productId":"a071c269-369c-4f79-be03-6a41f27d6b5f","review":"This was OK.","rating":3}' -H "Content-Type: application/json" -X POST http://localhost:8102/reviews
 //    @PostMapping(value = "/reviews")

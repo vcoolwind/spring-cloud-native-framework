@@ -6,7 +6,7 @@ ratings:
   servicename: ratings
 
 configReload:
-  enabled: true
+  enabled: false
   servicename: configreload
 
 feign:
@@ -21,17 +21,16 @@ spring:
   application:
     name: reviews
   datasource:
-    #the best way is in rating project
-    #platform: h2
-    #url: jdbc:h2:mem:reviews;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL
-    #username: sa
-    #password:
-    #driver-class-name: org.h2.Driver
-    platform: ${DATASOURCE_PLATFORM:h2}
-    url: ${DATASOURCE_URL:jdbc:h2:mem:reviewdb;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL}
-    username: ${DATASOURCE_USERNAME:sa}
-    password: ${DATASOURCE_PASSWORD:}
-    driver-class-name: ${DATASOURCE_DRIVER:org.h2.Driver}
+    #platform: ${DATASOURCE_PLATFORM:h2}
+    #url: ${DATASOURCE_URL:jdbc:h2:mem:reviewdb;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL}
+    #username: ${DATASOURCE_USERNAME:sa}
+    #password: ${DATASOURCE_PASSWORD:}
+    #driver-class-name: ${DATASOURCE_DRIVER:org.h2.Driver}
+    platform: ${DATASOURCE_PLATFORM:pg}
+    url: ${DATASOURCE_URL:jdbc:postgresql://192.168.92.1:5432/reviewdb}
+    username: ${DATASOURCE_USERNAME:bookinfo}
+    password: ${DATASOURCE_PASSWORD:bookinfo}
+    driver-class-name: ${DATASOURCE_DRIVER:org.postgresql.Driver}
   jpa:
     show-sql: true
     # Hibernate additional native properties to set on the JPA provider.
@@ -66,3 +65,13 @@ spring:
         all-namespaces: true
       discovery:
         all-namespaces: true
+eureka:
+  client:
+    service-url:
+      #defaultZone: http://eureka:123@eureka1:8761/eureka/,http://eureka:123@eureka2:8762/eureka/
+      defaultZone: http://admin:admin@127.0.0.1:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    metadata-map:
+      addr: shenzhen china
+      tel: 0755-10001
