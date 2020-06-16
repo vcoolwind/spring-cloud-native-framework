@@ -6,7 +6,7 @@ ratings:
   servicename: ratings
 
 configReload:
-  enabled: false
+  enabled: true
   servicename: configreload
 
 feign:
@@ -32,7 +32,7 @@ spring:
     password: ${DATASOURCE_PASSWORD:bookinfo}
     driver-class-name: ${DATASOURCE_DRIVER:org.postgresql.Driver}
   jpa:
-    show-sql: true
+    show-sql: false
     # Hibernate additional native properties to set on the JPA provider.
     properties:
       hibernate:

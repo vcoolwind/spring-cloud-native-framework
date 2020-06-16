@@ -1,6 +1,6 @@
 spring:
   application:
-    name: config-reload
+    name: configreload
 logging:
   level:
     web: info

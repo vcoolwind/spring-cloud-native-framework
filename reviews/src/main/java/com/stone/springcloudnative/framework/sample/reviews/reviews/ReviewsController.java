@@ -57,15 +57,17 @@ public class ReviewsController {
         List<Review> reviews = reviewRepository.findByProductId(productId);
         reviewDto.setReviews(reviews);
         MiscUtils.sleep(MiscUtils.random(500));
+        Review lastReview = null;
         for (Review review : reviews) {
             if (this.ratingsEnabled) {
                 Rating rating = ratingsClient.getRating(productId, review.getReviewer());
                 review.setRating(rating);
+                lastReview = review;
             } else {
                 log.info("ratings is not enabled");
             }
         }
-        asyncDoSth();
+        asyncDoSth(productId, lastReview.getReviewer());
         MiscUtils.sleep(MiscUtils.random(500));
 
         if (this.configReloadEnabled) {
@@ -77,16 +79,23 @@ public class ReviewsController {
         return reviewDto;
     }
 
-    private void asyncDoSth(){
+    private void asyncDoSth(UUID productId, String reviewer) {
         new Thread(
                 RunnableWrapper.of(() -> {
                     log.info("asyncDoSth start");
-                    MiscUtils.sleep(MiscUtils.random(500));
+                    syncDoSth(productId, reviewer);
                     log.info("asyncDoSth end");
                 })
         ).start();
     }
 
+    private void syncDoSth(UUID productId, String reviewer) {
+        log.info("syncDoSth do sth start .");
+        MiscUtils.sleep(MiscUtils.random(500));
+        Rating rating = ratingsClient.getRating(productId, reviewer);
+        log.info("syncDoSth -- rating:{}",rating);
+        log.info("syncDoSth do sth end .");
+    }
 
 
     // curl -d '{"reviewerId":"9bc908be-0717-4eab-bb51-ea14f669ef20","productId":"a071c269-369c-4f79-be03-6a41f27d6b5f","review":"This was OK.","rating":3}' -H "Content-Type: application/json" -X POST http://localhost:8102/reviews

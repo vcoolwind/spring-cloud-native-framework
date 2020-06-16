@@ -12,6 +12,12 @@ import org.springframework.context.annotation.Import;
 @SpringBootApplication
 @EnableFeignClients
 public class ReviewsApplication {
+
+    /**
+     * VM添加 -javaagent:C:\idea_workspace\spring-cloud-native-framework\agent\skywalking-agent.jar -Dskywalking.agent.service_name=reviews
+     *  C:\idea_workspace\spring-cloud-native-framework\agent\config\agent.config 已经定义了如何连接OAP
+     * @param args
+     */
     public static void main(String[] args) {
         SpringApplication.run(ReviewsApplication.class, args);
     }
