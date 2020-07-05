@@ -6,8 +6,12 @@
 <configuration scan="true" scanPeriod="15 seconds">
     <contextName>logback</contextName>
 
+<!--    <property name="CONSOLE_LOG_PATTERN"-->
+<!--              value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%tid] -%msg%n"/>-->
+<!--    <property name="CONSOLE_LOG_PATTERN"-->
+<!--              value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-5p] [%tid] [%t] [%logger{48}:%L] - %msg%n"/>-->
     <property name="CONSOLE_LOG_PATTERN"
-              value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%tid] -%msg%n"/>
+              value="[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%-5p] [%tid] [%t] [%logger{48}:%L] - %msg%n"/>
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <!--此日志appender是为开发使用，只配置最底级别，控制台输出的日志级别是大于或等于此级别的日志信息-->
@@ -18,16 +22,48 @@
             <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
                 <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
             </layout>
-            <!-- 设置字符集 -->
             <charset>UTF-8</charset>
         </encoder>
     </appender>
+
+    <!-- This is the kafkaAppender 写日志到kafka MQ中-->
+    <appender name="kafkaAppender" class="com.github.danielwegener.logback.kafka.KafkaAppender">
+        <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
+            <layout class="org.apache.skywalking.apm.toolkit.log.logback.v1.x.TraceIdPatternLogbackLayout">
+                <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
+            </layout>
+            <charset>UTF-8</charset>
+        </encoder>
+        <topic>applogs</topic>
+        <!-- we don't care how the log messages will be partitioned  -->
+        <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy" />
+        <!-- use async delivery. the application threads are not blocked by logging -->
+        <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy" />
+        <!-- bootstrap.servers is the only mandatory producerConfig -->
+
+        <producerConfig>bootstrap.servers=192.168.92.3:31092</producerConfig>
+        <!-- don't wait for a broker to ack the reception of a batch.  -->
+        <producerConfig>acks=0</producerConfig>
+        <!-- wait up to 1000ms and collect log messages before sending them as a batch -->
+        <producerConfig>linger.ms=1000</producerConfig>
+        <!-- even if the producer buffer runs full, do not block the application but start to drop messages -->
+        <producerConfig>max.block.ms=0</producerConfig>
+        <!-- define a client-id that you use to identify yourself against the kafka broker -->
+        <producerConfig>client.id=${HOSTNAME}-${CONTEXT_NAME}-logback-relaxed</producerConfig>
+
+        <!-- this is the fallback appender if kafka is not available. -->
+        <appender-ref ref="CONSOLE" />
+    </appender>
+
+
+
 
     <logger name="org.springframework" level="warn"/>
     <logger name="org.apache" level="warn"/>
 
     <root level="info">
         <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="kafkaAppender"/>
     </root>
 
 </configuration>

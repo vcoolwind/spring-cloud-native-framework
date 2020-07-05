@@ -20,6 +20,21 @@ logging:
 spring:
   application:
     name: reviews
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      config:
+        server-addr: 192.168.92.3:31848
+      discovery:
+        #nacos的服务地址
+        server-addr: 192.168.92.3:31848
+        #nacos的命名空间，用来标记应用组，可以互相发现的一组微服务。对应nacos控制台的namespace  id。
+        namespace: bookinfo
+        # 分组，用来标记运行环境 dev prd等等
+        group: dev
+        # 默认是应用的name，一组提供相同服务的服务实例
+        #service: {spring.application.name}
   datasource:
     #platform: ${DATASOURCE_PLATFORM:h2}
     #url: ${DATASOURCE_URL:jdbc:h2:mem:reviewdb;DB_CLOSE_ON_EXIT=FALSE;MODE=PostgreSQL}
@@ -55,23 +70,30 @@ spring:
       ddl-auto: ${DDL_AUTO:none}
   http:
     log-request-details: false
-  cloud:
-    kubernetes:
-      ribbon:
-        enabled: true
-        mode: SERVICE
-        cluster-domain: cluster.local
-        #find service in all namespaces,more than one service with same name will not work
-        all-namespaces: true
-      discovery:
-        all-namespaces: true
-eureka:
-  client:
-    service-url:
-      #defaultZone: http://eureka:123@eureka1:8761/eureka/,http://eureka:123@eureka2:8762/eureka/
-      defaultZone: http://admin:admin@127.0.0.1:8761/eureka/
-  instance:
-    prefer-ip-address: true
-    metadata-map:
-      addr: shenzhen china
-      tel: 0755-10001
+
+
+
+
+
+#  cloud:
+#    kubernetes:
+#      ribbon:
+#        enabled: true
+#        mode: SERVICE
+#        cluster-domain: cluster.local
+#        #find service in all namespaces,more than one service with same name will not work
+#        all-namespaces: true
+#      discovery:
+#        all-namespaces: true
+#eureka:
+          ##  client:
+          ##    service-url:
+          ##      #defaultZone: http://eureka:123@eureka1:8761/eureka/,http://eureka:123@eureka2:8762/eureka/
+          ##      defaultZone: http://admin:admin@127.0.0.1:8761/eureka/
+          ##  instance:
+          ##    prefer-ip-address: true
+          ##    metadata-map:
+        ##      addr: shenzhen china
+        ##      tel: 0755-10001
+
+

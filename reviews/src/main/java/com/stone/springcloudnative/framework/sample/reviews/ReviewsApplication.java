@@ -1,5 +1,6 @@
 package com.stone.springcloudnative.framework.sample.reviews;
 
+import com.purgeteam.dynamic.config.starter.annotation.EnableDynamicConfigEvent;
 import com.stone.springcloudnative.framework.sample.common.log.LoggerAspect;
 import com.stone.springcloudnative.framework.sample.common.mesh.FeginInterceptor;
 import com.stone.springcloudnative.framework.sample.common.mesh.HystrixRequestAttributeAutoConfiguration;
@@ -11,6 +12,8 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @EnableFeignClients
+@EnableDiscoveryClient
+@EnableDynamicConfigEvent
 public class ReviewsApplication {
 
     /**

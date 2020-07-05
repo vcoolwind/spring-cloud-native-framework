@@ -1,5 +1,6 @@
 package com.stone.springcloudnative.framework.sample.reviews.reviews;
 
+import com.alibaba.fastjson.JSONObject;
 import com.stone.springcloudnative.framework.sample.common.util.MiscUtils;
 import com.stone.springcloudnative.framework.sample.reviews.configreload.ConfigReloadClient;
 import com.stone.springcloudnative.framework.sample.reviews.ratings.Rating;
@@ -9,6 +10,7 @@ import org.apache.skywalking.apm.toolkit.trace.RunnableWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,6 +21,7 @@ import java.util.UUID;
 
 @RestController
 @Slf4j
+@RefreshScope
 public class ReviewsController {
 
     @Value("${ratings.enabled}")
@@ -36,6 +39,10 @@ public class ReviewsController {
 
     @Autowired
     private DiscoveryClient discoveryClient;
+
+    @Autowired
+    private ReviewService reviewService;
+
 
     public ReviewsController(ReviewsRepository reviewRepository, RatingsClient ratingsClient) {
         log.info("ReviewsController init ,ReviewsRepository = {}, RatingsClient= {}", reviewRepository, ratingsClient);
@@ -93,9 +100,34 @@ public class ReviewsController {
         log.info("syncDoSth do sth start .");
         MiscUtils.sleep(MiscUtils.random(500));
         Rating rating = ratingsClient.getRating(productId, reviewer);
-        log.info("syncDoSth -- rating:{}",rating);
+        log.info("syncDoSth -- rating:{}", rating);
         log.info("syncDoSth do sth end .");
     }
+
+
+    @GetMapping(value = "/trace")
+    public String trace() {
+        return reviewService.doAction1("haha!");
+    }
+
+
+    @GetMapping(value = "/values")
+    public String values() {
+        JSONObject ret = new JSONObject();
+        ret.put("useLocalCache", useLocalCache);
+        ret.put("logLevel", logLevel);
+        ret.put("configReloadEnabled", configReloadEnabled);
+        ret.put("ratingsEnabled", ratingsEnabled);
+
+
+        return ret.toJSONString();
+    }
+
+    @Value("${useLocalCache:false}")
+    private boolean useLocalCache;
+
+    @Value("${logLevel:debug}")
+    private String logLevel;
 
 
     // curl -d '{"reviewerId":"9bc908be-0717-4eab-bb51-ea14f669ef20","productId":"a071c269-369c-4f79-be03-6a41f27d6b5f","review":"This was OK.","rating":3}' -H "Content-Type: application/json" -X POST http://localhost:8102/reviews

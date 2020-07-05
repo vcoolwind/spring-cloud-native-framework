@@ -35,4 +35,9 @@ public class MiscUtils {
     public static long random(int bound){
       return   random.nextInt(bound);
     }
+
+    public static void sleepRandom(int bound) {
+        sleep(random(bound));
+    }
+
 }
